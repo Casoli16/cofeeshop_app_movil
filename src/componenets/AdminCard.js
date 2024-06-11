@@ -66,16 +66,16 @@ const AdminCard = ({item, loadedCards, updateList}) => {
         //Accedemos la informacion que viene de la api.
         <View style={styles.itemContainer}>
             <View style={styles.rowTex}>
-                <text style={styles.cardNames}>Nombre:</text>
+                <Text style={styles.cardNames}>Nombre:</Text>
                 <Text>{item.nombre_administrador}</Text>
             </View>
             <View style={styles.rowTex}>
-                <text style={styles.cardNames}>Apellido:</text>
+                <Text style={styles.cardNames}>Apellido:</Text>
                 <Text>{item.apellido_administrador}</Text>
             </View>
 
             <View style={styles.rowTex}>
-                <text style={styles.cardNames}>Correo:</text>
+                <Text style={styles.cardNames}>Correo:</Text>
                 <Text>{item.correo_administrador}</Text>
             </View>
 
@@ -171,6 +171,7 @@ const styles = StyleSheet.create({
     itemContainer: {
         padding: 16,
         marginVertical: 8,
+        marginHorizontal: 10,
         backgroundColor: '#e7e1fd',
         borderRadius: 8,
         shadowColor: '#000',
@@ -250,6 +251,7 @@ const styles = StyleSheet.create({
         flexWrap: "wrap"
     },
     cardNames: {
-        fontWeight: "semibold"
+        fontWeight: "bold",
+        marginEnd: 5
     }
 })
