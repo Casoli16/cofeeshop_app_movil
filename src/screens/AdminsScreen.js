@@ -5,7 +5,7 @@ import Constants from 'expo-constants';
 import * as Contantes from '../../utilis/constantes';
 import AdminCard from "../componenets/AdminCard";
 
-const AdminsScreen = ({}) => {
+const AdminsScreen = () => {
     //Declaracion de variables a utilizar.
     const [adminData, setAdminData] = useState([]);
     const [idAdmin, setIdAdmin] = useState(0);
@@ -25,7 +25,6 @@ const AdminsScreen = ({}) => {
 
 // Efecto para cargar los detalles del carrito al cargar la pantalla
 useEffect(() => {
-    console.log('sdsd')
     fillCards();
 }, []);
 
@@ -64,6 +63,16 @@ const fillCards = async ()=>{
         />
     );
 
+//Funcion para limpiar los campos de los input
+    const clearInput = () => {
+        setNombreAdmin(' ');
+        setApellidoAdmin(' ');
+        setCorreoAdmin(' ');
+        setAliasAdmin(' ');
+        setClaveAdmin(' ');
+        setRepetirClave(' ');
+    }
+
     const createAdmin = async () => {
         const formData = new FormData();
         formData.append('nombreAdministrador', nombreAdmin);
@@ -82,6 +91,8 @@ const fillCards = async ()=>{
         if (data.status){
             Alert.alert('Éxito', data.message);
             setModalVisible(false);
+            await clearInput();
+            await fillCards();
 
         } else{
             Alert.alert('Error', data.error);
@@ -92,9 +103,9 @@ const fillCards = async ()=>{
 // Mostramos las cards con la informacion de los admin en nuestra pantalla
     return (
         <View style={styles.container}>
-            <Text>Haz clic en el siguiente botón para poder agregar un administrador</Text>
+            <Text style={styles.textTitle}>Haz clic en el siguiente botón para poder agregar un administrador</Text>
 
-            <TouchableOpacity style={styles.addButton} onPress={()=> {setModalVisible(true)}}>
+            <TouchableOpacity style={styles.createButton} onPress={()=> {setModalVisible(true)}}>
                 <Text style={styles.textWhite}>Agregar administrador</Text>
             </TouchableOpacity>
 
@@ -148,11 +159,11 @@ const fillCards = async ()=>{
                             secureTextEntry = {true}
                         />
 
-                        <View>
+                        <View style={styles.row}>
                             <TouchableOpacity style={styles.addButton} onPress={()=>{createAdmin()}}>
                                 <Text style={styles.textWhite}>Guardar</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.addButton} onPress={()=>{setModalVisible(false)}}>
+                            <TouchableOpacity style={styles.cancelButton} onPress={()=>{setModalVisible(false)}}>
                                 <Text style={styles.textWhite}>Cancelar</Text>
                             </TouchableOpacity>
                         </View>
@@ -162,7 +173,7 @@ const fillCards = async ()=>{
 
             {/*Revisamos si el adminData(Donde se guarda la informacion que viene de la api) viene con informacion*/}
             {adminData.length > 0 ? (
-                <FlatList
+                <FlatList style={styles.listStyle}
                     // Pasamos la informacion que se trajo de la api
                     data={adminData}
                     //Le pasamos nuestro componente personalizado de card.
@@ -194,19 +205,41 @@ const styles = StyleSheet.create({
         marginVertical: 16,
         color: '#5C3D2E',
     },
-    containerButtons: {
-        justifyContent: 'center',
-        alignItems: 'center',
+    row: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "center"
     },
     addButton: {
         marginTop: 10,
         padding: 10,
         backgroundColor: '#7c08e8',
         marginBottom: 10,
-        borderRadius: 10
+        borderRadius: 10,
+        marginHorizontal: 10,
+        width: 120
+    },
+    createButton: {
+        marginTop: 10,
+        padding: 10,
+        backgroundColor: '#7c08e8',
+        marginBottom: 10,
+        borderRadius: 10,
+        marginHorizontal: 10,
+
+    },
+    cancelButton: {
+        marginTop: 10,
+        padding: 10,
+        backgroundColor: '#e53232',
+        marginBottom: 10,
+        borderRadius: 10,
+        marginHorizontal: 10,
+        width: 120
     },
     textWhite: {
-        color: '#fff'
+        color: '#fff',
+        textAlign: "center"
     },
     modalContainer: {
         margin: 20,
@@ -228,5 +261,13 @@ const styles = StyleSheet.create({
     },
     input: {
         marginVertical: 15
+    },
+    textTitle: {
+        fontSize: 16,
+        marginHorizontal: 10,
+        marginBottom: 5
+    },
+    listStyle: {
+        marginVertical: 20
     }
 });

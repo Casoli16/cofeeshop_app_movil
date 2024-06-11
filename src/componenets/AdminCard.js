@@ -56,7 +56,7 @@ const AdminCard = ({item, loadedCards, updateList}) => {
         if (data.status){
             Alert.alert('Éxito', data.message);
             setModalVisible(false);
-            updateList(prevData=>prevData.filter(item => item.id_administrador));
+            loadedCards();
         } else{
             Alert.alert('Error', data.error);
         }
@@ -65,17 +65,28 @@ const AdminCard = ({item, loadedCards, updateList}) => {
     return (
         //Accedemos la informacion que viene de la api.
         <View style={styles.itemContainer}>
-            <Text>ID: {item.id_administrador}</Text>
-            <Text>Nombre: {item.nombre_administrador}</Text>
-            <Text>Apellido : {item.apellido_administrador}</Text>
-            <Text>Correo: {item.correo_administrador}</Text>
+            <View style={styles.rowTex}>
+                <text style={styles.cardNames}>Nombre:</text>
+                <Text>{item.nombre_administrador}</Text>
+            </View>
+            <View style={styles.rowTex}>
+                <text style={styles.cardNames}>Apellido:</text>
+                <Text>{item.apellido_administrador}</Text>
+            </View>
 
-            <TouchableOpacity style={styles.deleteButton} onPress={()=> deleteAdmin(item.id_administrador)}>
-                <Text style={styles.buttonText}>Eliminar</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.updateButton} onPress={()=> setModalVisible(true)}>
-                <Text style={styles.buttonText}>Actualizar</Text>
-            </TouchableOpacity>
+            <View style={styles.rowTex}>
+                <text style={styles.cardNames}>Correo:</text>
+                <Text>{item.correo_administrador}</Text>
+            </View>
+
+            <View style={styles.row}>
+                <TouchableOpacity style={styles.deleteButton} onPress={()=> deleteAdmin(item.id_administrador)}>
+                    <Text style={styles.buttonText}>Eliminar</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.updateButton} onPress={()=> setModalVisible(true)}>
+                    <Text style={styles.buttonText}>Actualizar</Text>
+                </TouchableOpacity>
+            </View>
 
             {/*MODAL*/}
             <Modal
@@ -86,7 +97,7 @@ const AdminCard = ({item, loadedCards, updateList}) => {
 
                 <View style={styles.modalCenter}>
                     <View style={styles.modalContainer}>
-                        <Text style={styles.title}>Agregar Administrador</Text>
+                        <Text style={styles.title}>Actualizar Administrador</Text>
                         <TextInput
                             label='Nombre'
                             value= {nombreAdmin}
@@ -112,11 +123,11 @@ const AdminCard = ({item, loadedCards, updateList}) => {
                             value= {aliasAdmin}
                             style={styles.input}
                         />
-                        <View>
-                            <TouchableOpacity style={styles.addButton} onPress={()=>{updateAdmin(item.id_administrador)}}>
+                        <View style={styles.row2}>
+                            <TouchableOpacity style={styles.updateButton2} onPress={()=>{updateAdmin(item.id_administrador)}}>
                                 <Text style={styles.textWhite}>Actualizar</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={styles.addButton} onPress={()=>{setModalVisible(false)}}>
+                            <TouchableOpacity style={styles.cancelButton} onPress={()=>{setModalVisible(false)}}>
                                 <Text style={styles.textWhite}>Cancelar</Text>
                             </TouchableOpacity>
                         </View>
@@ -144,10 +155,23 @@ const styles = StyleSheet.create({
         marginVertical: 16,
         color: '#5C3D2E',
     },
+    row: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      justifyContent: "flex-end",
+      padding: 15,
+      marginTop: 20,
+      borderRadius: 15
+    },
+    row2: {
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "center",
+    },
     itemContainer: {
         padding: 16,
         marginVertical: 8,
-        backgroundColor: '#f8eded',
+        backgroundColor: '#e7e1fd',
         borderRadius: 8,
         shadowColor: '#000',
         shadowOffset: {width: 0, height: 0},
@@ -156,17 +180,38 @@ const styles = StyleSheet.create({
         elevation: 2,
     },
     deleteButton: {
-        marginTop: 15,
         padding:10,
-        backgroundColor: '#e53232',
+        backgroundColor: '#e33f3f',
+        width: 110,
+        borderRadius: 10,
+        marginHorizontal: 5,
     },
-    updateButton: {
+    updateButton2: {
         marginTop: 15,
         padding:10,
         backgroundColor: '#07b72b',
+        borderRadius: 10,
+        width: 120,
+        marginHorizontal: 10,
+    },
+    updateButton: {
+        padding:10,
+        backgroundColor: '#e0b539',
+        width: 110,
+        borderRadius: 10,
+        marginHorizontal: 5,
+    },
+    cancelButton: {
+        marginTop: 15,
+        padding:10,
+        backgroundColor: '#e53232',
+        borderRadius: 10,
+        width: 120,
+        marginHorizontal: 10
     },
     buttonText: {
-        color: '#fff'
+        color: '#fff',
+        textAlign: "center",
     },
     modalContainer: {
         margin: 20,
@@ -194,9 +239,17 @@ const styles = StyleSheet.create({
         padding: 10,
         backgroundColor: '#7c08e8',
         marginBottom: 10,
-        borderRadius: 10
+        borderRadius: 10,
     },
     textWhite: {
-        color: '#fff'
+        color: '#fff',
+        textAlign: "center"
     },
+    rowTex: {
+        flexDirection: "row",
+        flexWrap: "wrap"
+    },
+    cardNames: {
+        fontWeight: "semibold"
+    }
 })
