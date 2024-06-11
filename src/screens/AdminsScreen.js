@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react';
-import { View, StyleSheet } from 'react-native';
-import { Text, Button } from 'react-native-paper';
-import constant from 'expo-constants';
+import { Text, View, StyleSheet, FlatList, Alert } from 'react-native';
+import { Button } from 'react-native-paper';
+import Constants from 'expo-constants';
 import * as Contantes from '../../utilis/constantes';
+import AdminCard from "../componenets/AdminCard";
 
 const AdminsScreen = ({}) => {
     const [adminData, setAdminData] = useState([]);
@@ -13,8 +14,14 @@ const AdminsScreen = ({}) => {
     const [aliasAdmin, setAlias] = useState('');
     const [claveAdmin, setClave] = useState('');
     const ip = Contantes.IP;
-}
 
+
+// Efecto para cargar los detalles del carrito al cargar la pantalla
+useEffect(() => {
+    fillCards();
+}, []);
+
+// Funcion para obtener los detalles del carrito desde servidor
 const fillCards = async ()=>{
     try {
         const response = await fetch(`${ip}/cofeeshop/api/services/admin/admin.php?action=readAll`, {
@@ -26,10 +33,19 @@ const fillCards = async ()=>{
         if(data.status){
             setAdminData(data.dataset);
         }else{
-            
+          Alert.alert('Warning', data.error);
         }
-    }catch (){
+    }catch (error){
+        console.error(error, 'Error desde catch');
+        Alert.alert('Error productos', data.error)
+    }
 
+    const renderItem = ({ item }) => (
+        <AdminCard
+            item={item}
+            loadedCards={fillCards}
+        />
+    );
     }
 }
 
