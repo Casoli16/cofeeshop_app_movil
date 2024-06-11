@@ -79,6 +79,11 @@ const AdminCard = ({item, loadedCards, updateList}) => {
                 <Text>{item.correo_administrador}</Text>
             </View>
 
+            <View style={styles.rowTex}>
+                <Text style={styles.cardNames}>Alías:</Text>
+                <Text>{item.alias_administrador}</Text>
+            </View>
+
             <View style={styles.row}>
                 <TouchableOpacity style={styles.deleteButton} onPress={()=> deleteAdmin(item.id_administrador)}>
                     <Text style={styles.buttonText}>Eliminar</Text>
